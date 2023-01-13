@@ -1,41 +1,67 @@
 /**********************************************************************************************************************
+
  *  FILE DESCRIPTION
- *  -----------------------------------------------------------------------------------------------------------------*/
-/**        \file  IntCtrl_Lcfg.c
- *        \brief  
  *
- *      \details  
+ -------------------------------------------------------------------------------------------------------------------
+ *         File:  PortTypes.h
+ *       Module:  GPIO
  *
+ *  Description:  types to be used in Gpio Port driver
  *
  *********************************************************************************************************************/
+#ifndef PORT_TYPES_H
+#define PORT_TYPES_H
 
 /**********************************************************************************************************************
- *  INCLUDES
+ * INCLUDES
  *********************************************************************************************************************/
+#include "DIO_Types.h"
 #include "Std_Types.h"
-#include "IntCtrl_Cfg.h"
-#include "IntCtrl_Types.h"
 
 /**********************************************************************************************************************
-*  LOCAL MACROS CONSTANT\FUNCTION
-*********************************************************************************************************************/
-
-/**********************************************************************************************************************
- *  LOCAL DATA 
+ *  GLOBAL CONSTANT MACROS
  *********************************************************************************************************************/
-
+// PinMode macros
+#define Digital (16u)
+/** TODO : Support the other modes */
 /**********************************************************************************************************************
- *  GLOBAL DATA
+ *  GLOBAL FUNCTION MACROS
  *********************************************************************************************************************/
-const NVIC_ConfigType NVIC_Config[INT_NUM_TO_ACTIVATE]=
-{
-	//Peripheral			group priority 	subgroup priority
-	{NVIC_GPIO_PORT_A,			0u,			0u},
-	{NVIC_16_32_TIMER_1_A,		1u,			0u}
-
-};
-
+typedef uint8 Port_PinModeType;
 
 /**********************************************************************************************************************
- *  END OF FILE: IntCtrl_Lcfg.c
+ *  GLOBAL DATA TYPES AND STRUCTURES
+ *********************************************************************************************************************/
+typedef enum { INPUT = 0u, OUTPUT } Port_PinDirectionType;
+
+typedef enum {
+  Default = 0,
+  OpenDrain,
+  PullUp,
+  PullDown
+
+} PORT_PinInternalAttachType;
+
+typedef enum {
+  Port_OutputCurrentAsDefault = 0,
+
+  Port_2ma,
+  Port_4ma,
+  Port_8ma
+
+} PORT_PinOutputCurrentType;
+
+typedef struct {
+  Dio_ChannelType pin;
+  Dio_PortType port;
+  Port_PinDirectionType direction;
+  Port_PinModeType mode;
+  PORT_PinInternalAttachType internalAttach;
+  PORT_PinOutputCurrentType outputcurrent;
+} Port_ConfigType;
+
+#endif /* PORT_TYPES_H */
+
+/**********************************************************************************************************************
+ *  END OF FILE: PORT_Types.h
  *********************************************************************************************************************/
